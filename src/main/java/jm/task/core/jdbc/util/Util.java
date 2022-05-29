@@ -9,10 +9,26 @@ public class Util {
     private static final String NAME = "root";
     private static final String PASS = "root";
 
-    public static Connection getCon() throws SQLException {
-        Connection con = DriverManager.getConnection(URL, NAME, PASS);
-        return con;
+    private static Connection connection = null;
+
+    public static Connection openCon() {
+        try {
+            connection = DriverManager.getConnection(URL, NAME, PASS);
+            return connection;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    public static void closeCon() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static Connection getCon() {
+        return connection;
+    }
 }
