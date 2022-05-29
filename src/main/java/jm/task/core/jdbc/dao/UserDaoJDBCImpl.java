@@ -24,7 +24,6 @@ public class UserDaoJDBCImpl implements UserDao {
                     " age TINYINT(3) UNSIGNED, " +
                     " PRIMARY KEY ( id ))";
             stmt.executeUpdate(query);
-            System.out.println("Table users was created");
         } catch (SQLException e) {
             System.out.println("Table users already exists");
         }
@@ -34,7 +33,6 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement stmt = Util.getCon().createStatement()) {
             String query = "DROP TABLE users";
             stmt.executeUpdate(query);
-            System.out.println("Table was dropped");
         } catch (SQLException e) {
             System.out.println("No table to delete");
         }
@@ -49,7 +47,7 @@ public class UserDaoJDBCImpl implements UserDao {
             pstmt.setByte(3, age);
             pstmt.executeUpdate();
 
-            System.out.println("User been saved");
+            System.out.println("User " + name + " " + lastName + " added");
         } catch (SQLException e) {
             System.out.println("User can't be saved");
         }
@@ -59,7 +57,6 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement stmt = Util.getCon().createStatement()) {
             String query = "DELETE FROM users WHERE id = " + id;
             stmt.executeUpdate(query);
-            System.out.println("User by id " + id + " was deleted");
         } catch (SQLException e) {
             System.out.println("Coulnd't delete user by id");
         }
@@ -80,7 +77,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setAge(rs.getByte(4));
                 usersList.add(user);
             }
-            System.out.println("Got Users list successfully\n");
+            System.out.println("Got all users from table\n");
         } catch (SQLException e) {
             System.out.println("Couldn't get Users list");
         }
@@ -92,7 +89,6 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement stmt = Util.getCon().createStatement()) {
             String query = "TRUNCATE TABLE users";
             stmt.executeUpdate(query);
-            System.out.println("Table Users was cleared");
         } catch (SQLException e) {
             System.out.println("Couldn't clear Users table");
         }

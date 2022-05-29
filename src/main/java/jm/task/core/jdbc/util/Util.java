@@ -11,7 +11,6 @@ public class Util {
 
     public static Connection getCon() throws SQLException {
         Connection con = DriverManager.getConnection(URL, NAME, PASS);
-        System.out.println("-------------------------");
         return con;
     }
 
