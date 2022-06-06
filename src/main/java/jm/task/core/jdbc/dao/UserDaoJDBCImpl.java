@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
-    private final String CREATE = "CREATE TABLE users " +
+    private final String CREATE = "CREATE TABLE IF NOT EXISTS users " +
             "(id BIGINT NOT NULL AUTO_INCREMENT, " +
             " name VARCHAR(45) NOT NULL, " +
             " lastName VARCHAR(45) NOT NULL, " +
@@ -21,13 +21,13 @@ public class UserDaoJDBCImpl implements UserDao {
     private final String INSERT = "INSERT INTO users (name, lastName, age) " +
             "VALUES (?, ?, ?)";
 
-    private final String DROP = "DROP TABLE users";
+    private final String DROP = "DROP TABLE IF EXISTS users";
 
     private final String REMOVE = "DELETE FROM users WHERE id = ?";
 
     private final String TRUNCATE = "TRUNCATE TABLE users";
 
-    private Connection connection = Util.openCon();
+    private Connection connection = Util.openConnection();
 
 
     public UserDaoJDBCImpl() {
@@ -46,7 +46,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement sqlStatement = connection.createStatement()) {
             sqlStatement.executeUpdate(DROP);
         } catch (SQLException e) {
-            System.out.println("No table to delete");
+            e.printStackTrace();
         }
     }
 
@@ -73,13 +73,13 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> usersList = new ArrayList<>();
         try (Statement sqlStatement = connection.createStatement();
-             ResultSet rs = sqlStatement.executeQuery(SELECT)) {
-            while (rs.next()) {
+            ResultSet getColumn = sqlStatement.executeQuery(SELECT)) {
+            while (getColumn.next()) {
                 User user = new User();
-                user.setId(rs.getLong(1));
-                user.setName(rs.getString(2));
-                user.setLastName(rs.getString(3));
-                user.setAge(rs.getByte(4));
+                user.setId(getColumn.getLong(1));
+                user.setName(getColumn.getString(2));
+                user.setLastName(getColumn.getString(3));
+                user.setAge(getColumn.getByte(4));
                 usersList.add(user);
                 System.out.println("User " + user.getName() + " " + user.getLastName() + " added to list");
             }

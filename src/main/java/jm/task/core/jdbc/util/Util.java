@@ -21,16 +21,16 @@ public class Util {
     private static Connection connection = null;
     private static SessionFactory sessionFactory;
 
-    public static Connection openCon() {
+    public static Connection openConnection() {
         try {
             connection = DriverManager.getConnection(URL, NAME, PASS);
-            return connection;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return connection;
     }
 
-    public static void closeCon() {
+    public static void closeConnection() {
         try {
             connection.close();
         } catch (SQLException e) {

@@ -1,12 +1,10 @@
 package jm.task.core.jdbc.model;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
